@@ -1,1 +1,236 @@
-const RANKING_URL='https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/ranking_kata%20(1).json',WRONG_WORDS_URL='https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/a3x.lua',TRAPS=['X','Y','W','IF','AH','EH','OX','EX','OH','AX','CY','AO','LY','HY','GY'],ALPHABET='ABCDEFGHIJKLMNOPQRSTUVWXYZ'['split'](''),INTERNAL_DB=['EHOMOFOBIA'];let wordDatabase=[],wrongWordsSet=new Set(),filterMode={'type':null,'value':null},maxDisplayLimit=0x3e8;function toggleElement(_0x2d8c49){const _0x2e004a=document['getElementById'](_0x2d8c49);_0x2e004a['classList']['toggle']('hidden');}document['getElementById']('maxWordsSlider')['oninput']=function(){maxDisplayLimit=parseInt(this['value']),document['getElementById']('maxWordsVal')['innerText']=this['value'],updateList();},document['getElementById']('zoomSlider')['oninput']=function(){const _0x5c887f=this['value'];document['getElementById']('zoomVal')['innerText']=_0x5c887f,document['body']['style']['transform']='scale('+_0x5c887f/0x64+')',document['body']['style']['width']=0x64/(_0x5c887f/0x64)+'%';};function initControls(){const _0x248a74=document['getElementById']('startTrapArea'),_0x163f8f=document['getElementById']('endTrapArea'),_0x52b494=document['getElementById']('alphabetArea');_0x248a74['innerHTML']='',_0x163f8f['innerHTML']='',_0x52b494['innerHTML']='',TRAPS['forEach'](_0x2f7cda=>{const _0x3ca377=document['createElement']('button');_0x3ca377['className']='counter-btn',_0x3ca377['innerText']='Awal\x20'+_0x2f7cda,_0x3ca377['onclick']=()=>setFilter('START',_0x2f7cda,_0x3ca377),_0x248a74['appendChild'](_0x3ca377);const _0x54df97=document['createElement']('button');_0x54df97['className']='counter-btn',_0x54df97['innerText']='Akhir\x20'+_0x2f7cda,_0x54df97['onclick']=()=>setFilter('END',_0x2f7cda,_0x54df97),_0x163f8f['appendChild'](_0x54df97);}),ALPHABET['forEach'](_0x399376=>{const _0x2d4926=document['createElement']('button');_0x2d4926['className']='alphabet-btn\x20counter-btn',_0x2d4926['innerText']=_0x399376,_0x2d4926['onclick']=()=>setFilter('START',_0x399376,_0x2d4926),_0x52b494['appendChild'](_0x2d4926);});}function setFilter(_0x2e38d6,_0x4cbc04,_0x4f09b1){filterMode['type']===_0x2e38d6&&filterMode['value']===_0x4cbc04?(filterMode={'type':null,'value':null},_0x4f09b1['classList']['remove']('active')):(document['querySelectorAll']('.counter-btn')['forEach'](_0x297fe2=>_0x297fe2['classList']['remove']('active')),filterMode={'type':_0x2e38d6,'value':_0x4cbc04},_0x4f09b1['classList']['add']('active')),updateList();}async function loadData(){try{const [_0x578288,_0x2739e9]=await Promise['all']([fetch(RANKING_URL),fetch(WRONG_WORDS_URL)]),_0x4a0c32=await _0x578288['json']();let _0x5496bb=new Set(INTERNAL_DB['map'](_0x4e4dec=>_0x4e4dec['toUpperCase']()));_0x4a0c32['forEach'](_0x2ee988=>{let _0x4f9d27=_0x2ee988['word']['toUpperCase']();/^[A-Z]+$/['test'](_0x4f9d27)&&_0x4f9d27['length']>=0x3&&_0x5496bb['add'](_0x4f9d27);}),wordDatabase=Array['from'](_0x5496bb);const _0x23d0f7=await _0x2739e9['text'](),_0x3be3e1=_0x23d0f7['match'](/"([^"]+)"/g);if(_0x3be3e1)_0x3be3e1['forEach'](_0x330de4=>wrongWordsSet['add'](_0x330de4['replace'](/"/g,'')['toUpperCase']()));document['getElementById']('status')['innerText']='READY\x20|\x20'+wordDatabase['length']+'\x20WORDS',initControls(),updateList();}catch(_0x1381ec){wordDatabase=INTERNAL_DB['map'](_0x4c17cc=>_0x4c17cc['toUpperCase']()),document['getElementById']('status')['innerText']='OFFLINE\x20MODE\x20(Internal\x20DB)\x20|\x20'+wordDatabase['length']+'\x20WORDS',initControls(),updateList();}}function updateList(){const _0x3ab51c=document['getElementById']('searchInput')['value']['toUpperCase']()['trim'](),_0x13c719=document['getElementById']('resultList'),_0x2813d9=document['getElementById']('mainToggleArea'),_0x4febf1=document['getElementById']('expandablePanels'),_0x586772=document['getElementById']('settingsPanel');_0x13c719['innerHTML']='';_0x3ab51c['length']>0x0?(_0x2813d9['classList']['add']('hidden'),_0x4febf1['classList']['add']('hidden'),_0x586772['classList']['add']('hidden')):(_0x2813d9['classList']['remove']('hidden'),_0x4febf1['classList']['remove']('hidden'));let _0x27ddac=[];if(_0x3ab51c['length']>0x0)_0x27ddac=wordDatabase['filter'](_0x41a5d5=>_0x41a5d5['startsWith'](_0x3ab51c)&&!wrongWordsSet['has'](_0x41a5d5)),_0x27ddac['sort']((_0x29a7b7,_0x3ce36e)=>(TRAPS['some'](_0x152c1a=>_0x29a7b7['endsWith'](_0x152c1a))?0x0:0x1)-(TRAPS['some'](_0x1dad9e=>_0x3ce36e['endsWith'](_0x1dad9e))?0x0:0x1)||_0x29a7b7['length']-_0x3ce36e['length']);else{if(filterMode['type']==='START')_0x13c719['innerHTML']='<span\x20class=\x27mode-indicator\x27>🔍\x20Awalan:\x20'+filterMode['value']+'</span>',_0x27ddac=wordDatabase['filter'](_0xaa4b46=>_0xaa4b46['startsWith'](filterMode['value'])&&!wrongWordsSet['has'](_0xaa4b46)),_0x27ddac['sort']((_0x178714,_0x51dec4)=>_0x178714['length']-_0x51dec4['length']);else{if(filterMode['type']==='END')_0x13c719['innerHTML']='<span\x20class=\x27mode-indicator\x27>🎯\x20Akhiran:\x20'+filterMode['value']+'</span>',_0x27ddac=wordDatabase['filter'](_0x32f9c8=>_0x32f9c8['endsWith'](filterMode['value'])&&!wrongWordsSet['has'](_0x32f9c8)),_0x27ddac['sort']((_0x4456a0,_0x218fc6)=>_0x4456a0['length']-_0x218fc6['length']);else{_0x13c719['innerHTML']='<span\x20class=\x27mode-indicator\x27>✨\x20Rekomendasi\x20Acak\x20✨</span>';let _0x1dd00d=[],_0x39211c=[],_0x264164=[];wordDatabase['forEach'](_0x5ee5cd=>{if(wrongWordsSet['has'](_0x5ee5cd))return;if(_0x5ee5cd['endsWith']('EH'))_0x1dd00d['push'](_0x5ee5cd);else{if(_0x5ee5cd['endsWith']('X')||_0x5ee5cd['endsWith']('Y'))_0x39211c['push'](_0x5ee5cd);else{if(TRAPS['some'](_0x3264f6=>_0x5ee5cd['endsWith'](_0x3264f6)))_0x264164['push'](_0x5ee5cd);}}});const _0x4f0508=_0x36699f=>_0x36699f['sort'](()=>Math['random']()-0.5);_0x4f0508(_0x1dd00d),_0x4f0508(_0x39211c),_0x4f0508(_0x264164);let _0x55b2=Math['max'](_0x1dd00d['length'],_0x39211c['length'],_0x264164['length']);for(let _0x4b38c7=0x0;_0x4b38c7<_0x55b2;_0x4b38c7++){if(_0x1dd00d[_0x4b38c7])_0x27ddac['push'](_0x1dd00d[_0x4b38c7]);if(_0x39211c[_0x4b38c7])_0x27ddac['push'](_0x39211c[_0x4b38c7]);if(_0x264164[_0x4b38c7])_0x27ddac['push'](_0x264164[_0x4b38c7]);}}}}_0x27ddac['slice'](0x0,maxDisplayLimit)['forEach'](_0xcecf8c=>{const _0x1e85be=document['createElement']('div');let _0x15ff72='normal';if(_0xcecf8c['endsWith']('EH'))_0x15ff72='trap-eh';else{if(_0xcecf8c['endsWith']('X')||_0xcecf8c['endsWith']('Y'))_0x15ff72='trap-xy';else{if(TRAPS['some'](_0x1ecd98=>_0xcecf8c['endsWith'](_0x1ecd98)))_0x15ff72='trap-others';}}_0x1e85be['className']='word-item\x20'+_0x15ff72,_0x1e85be['innerHTML']='<span>'+_0xcecf8c+'</span>\x20<span\x20class=\x22char-count\x22>'+_0xcecf8c['length']+'L</span>',_0x1e85be['onclick']=()=>{navigator['clipboard']['writeText'](_0xcecf8c),_0x1e85be['style']['background']='#fff',setTimeout(()=>_0x1e85be['style']['background']='',0x64);},_0x13c719['appendChild'](_0x1e85be);});}function debounce(_0x1ec2da,_0x5ca51e=0x12c){let _0x4e3c83;return function(..._0x1f0281){clearTimeout(_0x4e3c83),_0x4e3c83=setTimeout(()=>_0x1ec2da['apply'](this,_0x1f0281),_0x5ca51e);};}const debouncedUpdate=debounce(()=>{filterMode={'type':null,'value':null},document['querySelectorAll']('.counter-btn')['forEach'](_0x22cbfd=>_0x22cbfd['classList']['remove']('active')),updateList();},0x12c);document['getElementById']('searchInput')['oninput']=debouncedUpdate,loadData();
+const RANKING_URL = "https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/ranking_kata%20(1).json";
+const WRONG_WORDS_URL = "https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/a3x.lua";
+
+// Kata "EA" VVIP ditambahkan paling depan
+const TRAPS = ["EA", "X", "Y", "W", "IF", "AH", "EH", "OX" ,"EX", "OH", "AX", "CY", "AO", "LY", "HY", "GY"];
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+// Database Internal
+const INTERNAL_DB = [
+    "EHOMOFOBIA",
+    "eak",
+    "earl",
+    "eabagar"
+];
+
+let wordDatabase = [];
+let wrongWordsSet = new Set();
+let filterMode = { type: null, value: null };
+let maxDisplayLimit = 1000;
+
+// Status Mode Pencarian (False = Awalan, True = Akhiran)
+let isReverseSearch = false;
+
+// Toggle Function Panel
+function toggleElement(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+}
+
+// Toggle Reverse Search Mode
+function toggleReverseMode() {
+    isReverseSearch = !isReverseSearch;
+    const btn = document.getElementById('reverseBtn');
+    const input = document.getElementById('searchInput');
+    
+    if (isReverseSearch) {
+        btn.classList.add('active');
+        input.classList.add('reverse-active');
+        input.placeholder = "CARI AKHIRAN...";
+    } else {
+        btn.classList.remove('active');
+        input.classList.remove('reverse-active');
+        input.placeholder = "CARI AWALAN...";
+    }
+    updateList(); // Update hasil kalau sedang ngetik
+}
+
+// Slider Listeners
+document.getElementById('maxWordsSlider').oninput = function() {
+    maxDisplayLimit = parseInt(this.value);
+    document.getElementById('maxWordsVal').innerText = this.value;
+    updateList();
+};
+
+document.getElementById('zoomSlider').oninput = function() {
+    const val = this.value;
+    document.getElementById('zoomVal').innerText = val;
+    document.body.style.transform = `scale(${val/100})`;
+    document.body.style.width = `${100 / (val/100)}%`; 
+};
+
+function initControls() {
+    const startTrapArea = document.getElementById('startTrapArea');
+    const endTrapArea = document.getElementById('endTrapArea');
+    const alphabetArea = document.getElementById('alphabetArea');
+
+    startTrapArea.innerHTML = "";
+    endTrapArea.innerHTML = "";
+    alphabetArea.innerHTML = "";
+
+    TRAPS.forEach(t => {
+        const btnS = document.createElement('button');
+        btnS.className = 'counter-btn';
+        btnS.innerText = `Awal ${t}`;
+        btnS.onclick = () => setFilter('START', t, btnS);
+        startTrapArea.appendChild(btnS);
+
+        const btnE = document.createElement('button');
+        btnE.className = 'counter-btn';
+        btnE.innerText = `Akhir ${t}`;
+        btnE.onclick = () => setFilter('END', t, btnE);
+        endTrapArea.appendChild(btnE);
+    });
+
+    ALPHABET.forEach(char => {
+        const btn = document.createElement('button');
+        btn.className = 'alphabet-btn counter-btn';
+        btn.innerText = char;
+        btn.onclick = () => setFilter('START', char, btn);
+        alphabetArea.appendChild(btn);
+    });
+}
+
+function setFilter(type, value, el) {
+    if (filterMode.type === type && filterMode.value === value) {
+        filterMode = { type: null, value: null };
+        el.classList.remove('active');
+    } else {
+        document.querySelectorAll('.counter-btn').forEach(b => b.classList.remove('active'));
+        filterMode = { type, value };
+        el.classList.add('active');
+    }
+    // Bersihkan input manual jika pakai tombol filter
+    document.getElementById('searchInput').value = "";
+    updateList();
+}
+
+async function loadData() {
+    try {
+        const [r1, r2] = await Promise.all([fetch(RANKING_URL), fetch(WRONG_WORDS_URL)]);
+        const data1 = await r1.json();
+        
+        let combinedWords = new Set(INTERNAL_DB.map(w => w.toUpperCase()));
+        
+        data1.forEach(i => {
+            let w = i.word.toUpperCase();
+            if (/^[A-Z]+$/.test(w) && w.length >= 3) {
+                combinedWords.add(w);
+            }
+        });
+        wordDatabase = Array.from(combinedWords);
+        
+        const text2 = await r2.text();
+        const matches = text2.match(/"([^"]+)"/g);
+        if (matches) matches.forEach(m => wrongWordsSet.add(m.replace(/"/g, '').toUpperCase()));
+        
+        document.getElementById('status').innerText = `READY | ${wordDatabase.length} WORDS`;
+        initControls();
+        updateList();
+    } catch (e) { 
+        wordDatabase = INTERNAL_DB.map(w => w.toUpperCase());
+        document.getElementById('status').innerText = `OFFLINE MODE (Internal DB) | ${wordDatabase.length} WORDS`;
+        initControls();
+        updateList();
+    }
+}
+
+function updateList() {
+    const query = document.getElementById('searchInput').value.toUpperCase().trim();
+    const list = document.getElementById('resultList');
+    const mainToggleArea = document.getElementById('mainToggleArea');
+    const expandablePanels = document.getElementById('expandablePanels');
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    list.innerHTML = "";
+
+    // Sembunyikan tombol menu kalau lagi ngetik
+    if (query.length > 0) {
+        mainToggleArea.classList.add('hidden');
+        expandablePanels.classList.add('hidden');
+        settingsPanel.classList.add('hidden');
+    } else {
+        mainToggleArea.classList.remove('hidden');
+        if (filterMode.type === null) expandablePanels.classList.remove('hidden');
+    }
+
+    let display = [];
+    
+    if (query.length > 0) {
+        // Logika Reverse Search vs Awalan
+        if (isReverseSearch) {
+            list.innerHTML = `<span class='mode-indicator' style='color:#00ffff'>🔍 Mencari Akhiran: "${query}"</span>`;
+            display = wordDatabase.filter(w => w.endsWith(query) && !wrongWordsSet.has(w));
+        } else {
+            display = wordDatabase.filter(w => w.startsWith(query) && !wrongWordsSet.has(w));
+        }
+        // Sort berdasarkan prioritas jebakan
+        display.sort((a,b) => {
+            const getPriority = (word) => {
+                if (word.endsWith("EA")) return 0;
+                if (word.endsWith("EH") || word.endsWith("LT")) return 1;
+                if (TRAPS.some(e => word.endsWith(e))) return 2;
+                return 3;
+            };
+            return getPriority(a) - getPriority(b) || a.length - b.length;
+        });
+        
+    } else if (filterMode.type === 'START') {
+        list.innerHTML = `<span class='mode-indicator'>🔍 Awalan: ${filterMode.value}</span>`;
+        display = wordDatabase.filter(w => w.startsWith(filterMode.value) && !wrongWordsSet.has(w));
+        display.sort((a,b) => a.length - b.length);
+    } else if (filterMode.type === 'END') {
+        list.innerHTML = `<span class='mode-indicator'>🎯 Akhiran: ${filterMode.value}</span>`;
+        display = wordDatabase.filter(w => w.endsWith(filterMode.value) && !wrongWordsSet.has(w));
+        display.sort((a,b) => a.length - b.length);
+    } else {
+        list.innerHTML = "<span class='mode-indicator'>✨ Rekomendasi Acak ✨</span>";
+        let ea = [], eh = [], xy = [], others = [];
+        wordDatabase.forEach(w => {
+            if(wrongWordsSet.has(w)) return;
+            if(w.endsWith("EA")) ea.push(w);
+            else if(w.endsWith("EH")) eh.push(w);
+            else if(w.endsWith("X") || w.endsWith("Y")) xy.push(w);
+            else if(TRAPS.some(e => w.endsWith(e))) others.push(w);
+        });
+        const shuf = (a) => a.sort(() => Math.random() - 0.5);
+        shuf(ea); shuf(eh); shuf(xy); shuf(others);
+        
+        // Rekomendasi akan memprioritaskan EA terlebih dahulu
+        let max = Math.max(ea.length, eh.length, xy.length, others.length);
+        for(let i=0; i<max; i++) {
+            if(ea[i]) display.push(ea[i]);
+            if(eh[i]) display.push(eh[i]);
+            if(xy[i]) display.push(xy[i]);
+            if(others[i]) display.push(others[i]);
+        }
+    }
+
+    display.slice(0, maxDisplayLimit).forEach(word => {
+        const div = document.createElement('div');
+        let cls = "normal";
+        
+        // Pewarnaan berdasarkan Kasta
+        if (word.endsWith("EA")) cls = "trap-ea";
+        else if (word.endsWith("EH") || word.endsWith("LT")) cls = "trap-eh";
+        else if (word.endsWith("X") || word.endsWith("Y")) cls = "trap-xy";
+        else if (TRAPS.some(e => word.endsWith(e))) cls = "trap-others";
+        
+        div.className = `word-item ${cls}`;
+        div.innerHTML = `<span>${word}</span> <span class="char-count">${word.length}L</span>`;
+        div.onclick = () => {
+            navigator.clipboard.writeText(word);
+            div.style.background = "#fff";
+            setTimeout(() => div.style.background = "", 100);
+        };
+        list.appendChild(div);
+    });
+}
+
+document.getElementById('searchInput').oninput = () => {
+    filterMode = { type: null, value: null };
+    document.querySelectorAll('.counter-btn').forEach(b => b.classList.remove('active'));
+    updateList();
+};
+
+loadData();
