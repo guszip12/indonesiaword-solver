@@ -1,11 +1,9 @@
 const RANKING_URL = "https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/ranking_kata%20(1).json";
 const WRONG_WORDS_URL = "https://raw.githubusercontent.com/fay23-dam/sazaraaax-script/refs/heads/main/wordworng/a3x.lua";
 
-// Kata "EA" VVIP ditambahkan paling depan
 const TRAPS = ["EA", "X", "Y", "W", "IF", "AH", "EH", "OX" ,"EX", "OH", "AX", "CY", "AO", "LY", "HY", "GY"];
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-// Database Internal
 const INTERNAL_DB = [
     "EHOMOFOBIA",
     "eak",
@@ -42,7 +40,7 @@ function toggleReverseMode() {
         input.classList.remove('reverse-active');
         input.placeholder = "CARI AWALAN...";
     }
-    updateList(); // Update hasil kalau sedang ngetik
+    updateList(); 
 }
 
 // Slider Listeners
@@ -144,7 +142,6 @@ function updateList() {
     
     list.innerHTML = "";
 
-    // Sembunyikan tombol menu kalau lagi ngetik
     if (query.length > 0) {
         mainToggleArea.classList.add('hidden');
         expandablePanels.classList.add('hidden');
@@ -157,14 +154,12 @@ function updateList() {
     let display = [];
     
     if (query.length > 0) {
-        // Logika Reverse Search vs Awalan
         if (isReverseSearch) {
             list.innerHTML = `<span class='mode-indicator' style='color:#00ffff'>🔍 Mencari Akhiran: "${query}"</span>`;
             display = wordDatabase.filter(w => w.endsWith(query) && !wrongWordsSet.has(w));
         } else {
             display = wordDatabase.filter(w => w.startsWith(query) && !wrongWordsSet.has(w));
         }
-        // Sort berdasarkan prioritas jebakan
         display.sort((a,b) => {
             const getPriority = (word) => {
                 if (word.endsWith("EA")) return 0;
@@ -210,7 +205,6 @@ function updateList() {
         const div = document.createElement('div');
         let cls = "normal";
         
-        // Pewarnaan berdasarkan Kasta
         if (word.endsWith("EA")) cls = "trap-ea";
         else if (word.endsWith("EH") || word.endsWith("LT")) cls = "trap-eh";
         else if (word.endsWith("X") || word.endsWith("Y")) cls = "trap-xy";
