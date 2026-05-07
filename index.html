@@ -357,6 +357,7 @@
 
     async function loadData() {
         try {
+            const cacheBuster = `?t=${new Date().getTime()}`;
             const [r1, r2] = await Promise.all([fetch(RANKING_URL), fetch(WRONG_WORDS_URL)]);
             const data1 = await r1.json();
             
