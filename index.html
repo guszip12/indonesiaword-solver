@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Word Solver Pro - Tactical Hide</title>
     <style>
         body {
@@ -357,8 +362,15 @@
 
     async function loadData() {
         try {
+            // Cache Buster menggunakan waktu saat ini agar selalu mendownload file baru
             const cacheBuster = `?t=${new Date().getTime()}`;
-            const [r1, r2] = await Promise.all([fetch(RANKING_URL), fetch(WRONG_WORDS_URL)]);
+            
+            // Ditambahkan objek { cache: "no-store" } untuk memaksa bypass cache
+            const [r1, r2] = await Promise.all([
+                fetch(RANKING_URL + cacheBuster, { cache: "no-store" }), 
+                fetch(WRONG_WORDS_URL + cacheBuster, { cache: "no-store" })
+            ]);
+            
             const data1 = await r1.json();
             
             let combinedWords = new Set(INTERNAL_DB.map(w => w.toUpperCase()));
