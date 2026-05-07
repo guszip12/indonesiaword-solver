@@ -8,7 +8,8 @@ const INTERNAL_DB = [
     "EHOMOFOBIA",
     "eak",
     "earl",
-    "eabagar"
+    "eabagar",
+    "mlocoh"
 ];
 
 let wordDatabase = [];
