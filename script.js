@@ -9,7 +9,17 @@ const INTERNAL_DB = [
     "eak",
     "earl",
     "eabagar",
-    "mlocoh"
+    "mlocoh",
+    "uangkan",
+    "uangku",
+    "uangmu",
+    "uangpun",
+    "iatri",
+    "iatrik",
+    "iatrogenik",
+    "iatrologi",
+    "iatromekanik",
+    "iatrokimia"
 ];
 
 let wordDatabase = [];
