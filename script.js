@@ -4,6 +4,7 @@ const WRONG_WORDS_URL = "https://raw.githubusercontent.com/fay23-dam/sazaraaax-s
 const TRAPS = ["EA", "X", "Y", "W", "IF", "AH", "EH", "OX" ,"EX", "OH", "AX", "CY", "AO", "LY", "HY", "GY"];
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+// INTERNAL_DB kamu dengan kata mlocoh, uangku, dkk
 const INTERNAL_DB = [
     "EHOMOFOBIA",
     "eak",
@@ -30,13 +31,11 @@ let maxDisplayLimit = 1000;
 // Status Mode Pencarian (False = Awalan, True = Akhiran)
 let isReverseSearch = false;
 
-// Toggle Function Panel
 function toggleElement(id) {
     const el = document.getElementById(id);
     el.classList.toggle('hidden');
 }
 
-// Toggle Reverse Search Mode
 function toggleReverseMode() {
     isReverseSearch = !isReverseSearch;
     const btn = document.getElementById('reverseBtn');
@@ -54,7 +53,6 @@ function toggleReverseMode() {
     updateList(); 
 }
 
-// Slider Listeners
 document.getElementById('maxWordsSlider').oninput = function() {
     maxDisplayLimit = parseInt(this.value);
     document.getElementById('maxWordsVal').innerText = this.value;
@@ -109,17 +107,15 @@ function setFilter(type, value, el) {
         filterMode = { type, value };
         el.classList.add('active');
     }
-    // Bersihkan input manual jika pakai tombol filter
     document.getElementById('searchInput').value = "";
     updateList();
 }
 
 async function loadData() {
     try {
-        // Tambahkan Cache Buster di sini
+        // Trik Cache Buster agar data selalu baru
         const cacheBuster = `?t=${new Date().getTime()}`;
         
-        // Panggil URL dengan tambahan cacheBuster dan no-store
         const [r1, r2] = await Promise.all([
             fetch(RANKING_URL + cacheBuster, { cache: "no-store" }), 
             fetch(WRONG_WORDS_URL + cacheBuster, { cache: "no-store" })
@@ -210,7 +206,6 @@ function updateList() {
         const shuf = (a) => a.sort(() => Math.random() - 0.5);
         shuf(ea); shuf(eh); shuf(xy); shuf(others);
         
-        // Rekomendasi akan memprioritaskan EA terlebih dahulu
         let max = Math.max(ea.length, eh.length, xy.length, others.length);
         for(let i=0; i<max; i++) {
             if(ea[i]) display.push(ea[i]);
