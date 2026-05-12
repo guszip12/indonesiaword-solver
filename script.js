@@ -116,7 +116,15 @@ function setFilter(type, value, el) {
 
 async function loadData() {
     try {
-        const [r1, r2] = await Promise.all([fetch(RANKING_URL), fetch(WRONG_WORDS_URL)]);
+        // Tambahkan Cache Buster di sini
+        const cacheBuster = `?t=${new Date().getTime()}`;
+        
+        // Panggil URL dengan tambahan cacheBuster dan no-store
+        const [r1, r2] = await Promise.all([
+            fetch(RANKING_URL + cacheBuster, { cache: "no-store" }), 
+            fetch(WRONG_WORDS_URL + cacheBuster, { cache: "no-store" })
+        ]);
+        
         const data1 = await r1.json();
         
         let combinedWords = new Set(INTERNAL_DB.map(w => w.toUpperCase()));
