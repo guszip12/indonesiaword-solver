@@ -259,13 +259,23 @@
     const TRAPS = ["EA", "X", "Y", "W", "IF", "AH", "EH", "OX" ,"EX", "OH", "AX", "CY", "AO", "LY", "HY", "GY"];
     const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     
-    // INTERNAL_DB kamu dengan kata mlocoh
+    // INTERNAL_DB kamu dengan kata baru
     const INTERNAL_DB = [
         "EHOMOFOBIA",
         "eak",
         "earl",
         "eabagar",
-        "mlocoh"
+        "mlocoh",
+        "uangkan",
+        "uangku",
+        "uangmu",
+        "uangpun",
+        "iatri",
+        "iatrik",
+        "iatrogenik",
+        "iatrologi",
+        "iatromekanik",
+        "iatrokimia"
     ];
     
     let wordDatabase = [];
@@ -362,7 +372,7 @@
 
     async function loadData() {
         try {
-            // Trik Cache Buster agar data selalu baru
+            // Trik Cache Buster agar data dari GitHub selalu fresh!
             const cacheBuster = `?t=${new Date().getTime()}`;
             
             const [r1, r2] = await Promise.all([
@@ -496,5 +506,3 @@
 
 </body>
 </html>
-
-```
